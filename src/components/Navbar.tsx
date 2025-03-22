@@ -50,7 +50,7 @@ const Navbar = () => {
       <header
         className={cn(
           'fixed top-0 left-0 right-0 z-50 py-4 px-4 md:px-8 transition-all duration-300',
-          isScrolled ? 'bg-white/80 backdrop-blur-md shadow-sm' : 'bg-transparent'
+          isScrolled ? 'bg-white shadow-md' : 'bg-transparent'
         )}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -62,7 +62,7 @@ const Navbar = () => {
             Cané
           </Link>
           
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-10">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
@@ -77,7 +77,7 @@ const Navbar = () => {
             ))}
           </nav>
           
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-5">
             <button 
               className="text-cane-950 hover:text-cane-600 transition-colors duration-200"
               aria-label="Search"
@@ -95,7 +95,7 @@ const Navbar = () => {
               aria-label="Shopping bag"
             >
               <ShoppingBag size={20} />
-              <span className="absolute -top-1 -right-1 bg-cane-950 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 bg-cane-950 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 0
               </span>
             </button>

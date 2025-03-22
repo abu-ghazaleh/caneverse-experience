@@ -6,6 +6,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Button from '@/components/Button';
 import ProductCard from '@/components/ProductCard';
+import { toast } from "@/components/ui/use-toast";
 
 // Sample product data - in a real app, this would come from an API
 const productData = {
@@ -42,14 +43,18 @@ const relatedProducts = [
     name: 'Regenerating Night Cream',
     price: 78.00,
     image: 'https://images.unsplash.com/photo-1612817159949-195b6eb9e31a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-    category: 'Skincare'
+    category: 'Skincare',
+    rating: 4.7,
+    reviews: 76
   },
   {
     id: '5',
     name: 'Clarifying Face Wash',
     price: 38.00,
     image: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-    category: 'Skincare'
+    category: 'Skincare',
+    rating: 4.9,
+    reviews: 104
   },
   {
     id: '6',
@@ -57,14 +62,18 @@ const relatedProducts = [
     price: 56.00,
     image: 'https://images.unsplash.com/photo-1617897903246-719242758050?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
     category: 'Skincare',
-    isBestseller: true
+    isBestseller: true,
+    rating: 4.8,
+    reviews: 93
   },
   {
     id: '8',
     name: 'Rejuvenating Eye Cream',
     price: 48.00,
     image: 'https://images.unsplash.com/photo-1570194065650-d99fb4ee140b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
-    category: 'Skincare'
+    category: 'Skincare',
+    rating: 4.7,
+    reviews: 81
   }
 ];
 
@@ -80,6 +89,13 @@ const ProductPage = () => {
   
   const handleQuantityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setQuantity(parseInt(e.target.value));
+  };
+
+  const handleAddToCart = () => {
+    toast({
+      title: "Added to cart",
+      description: `${product.name} has been added to your cart.`,
+    });
   };
   
   // Generate array of stars for rating display
@@ -107,7 +123,7 @@ const ProductPage = () => {
   }, []);
   
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-cane-50">
       <Navbar />
       
       <main className="flex-grow pt-20">
@@ -115,7 +131,7 @@ const ProductPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 mb-16">
             {/* Product Images */}
             <div className="space-y-4">
-              <div className="aspect-square overflow-hidden rounded-lg bg-cane-100 animate-reveal-delay-1 opacity-0">
+              <div className="aspect-square overflow-hidden rounded-lg bg-white shadow-md">
                 <img 
                   src={product.images[selectedImage]} 
                   alt={product.name} 
@@ -123,11 +139,11 @@ const ProductPage = () => {
                 />
               </div>
               
-              <div className="grid grid-cols-3 gap-4 animate-reveal-delay-2 opacity-0">
+              <div className="grid grid-cols-3 gap-4">
                 {product.images.map((image, index) => (
                   <button
                     key={index}
-                    className={`aspect-square rounded-md overflow-hidden bg-cane-100 hover:opacity-95 transition-opacity ${
+                    className={`aspect-square rounded-md overflow-hidden bg-white hover:opacity-95 transition-opacity shadow-sm ${
                       index === selectedImage ? 'ring-2 ring-cane-950' : ''
                     }`}
                     onClick={() => setSelectedImage(index)}
@@ -143,7 +159,7 @@ const ProductPage = () => {
             </div>
             
             {/* Product Info */}
-            <div className="animate-reveal-delay-2 opacity-0">
+            <div className="bg-white p-8 rounded-lg shadow-md">
               <div className="mb-2">
                 <span className="inline-block text-sm font-medium text-cane-600 uppercase tracking-wide">
                   {product.category}
@@ -186,7 +202,7 @@ const ProductPage = () => {
                     <select
                       value={quantity}
                       onChange={handleQuantityChange}
-                      className="w-full appearance-none border border-cane-200 rounded-md py-2 pl-4 pr-10 bg-white text-cane-950 cursor-pointer focus:outline-none focus:ring-2 focus:ring-cane-950"
+                      className="w-full appearance-none border border-cane-200 rounded-full py-2 pl-4 pr-10 bg-white text-cane-950 cursor-pointer focus:outline-none focus:ring-2 focus:ring-cane-950"
                     >
                       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                         <option key={num} value={num}>
@@ -200,7 +216,7 @@ const ProductPage = () => {
                     />
                   </div>
                   
-                  <Button size="lg" fullWidth>
+                  <Button size="lg" fullWidth onClick={handleAddToCart}>
                     <div className="flex items-center justify-center">
                       <ShoppingBag size={18} className="mr-2" />
                       <span>Add to Bag</span>
@@ -208,7 +224,7 @@ const ProductPage = () => {
                   </Button>
                   
                   <button 
-                    className="flex-shrink-0 p-3 border border-cane-200 rounded-md text-cane-950 hover:bg-cane-50 transition-colors"
+                    className="flex-shrink-0 p-3 border border-cane-200 rounded-full text-cane-950 hover:bg-cane-50 transition-colors"
                     aria-label="Add to Wishlist"
                   >
                     <Heart size={20} />
@@ -245,7 +261,7 @@ const ProductPage = () => {
           </div>
           
           {/* Product Details Tabs */}
-          <div className="mb-16 animate-reveal-delay-3 opacity-0">
+          <div className="mb-16 bg-white rounded-lg shadow-md p-8">
             <div className="border-b border-cane-200 mb-6">
               <div className="flex flex-wrap -mb-px">
                 <button
@@ -312,12 +328,64 @@ const ProductPage = () => {
           </div>
           
           {/* Related Products */}
-          <div className="pt-8 border-t border-cane-200 animate-reveal-delay-3 opacity-0">
+          <div className="pt-8 border-t border-cane-200">
             <h2 className="text-2xl font-serif font-medium text-cane-950 mb-8">You May Also Like</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
               {relatedProducts.map((product, index) => (
-                <div key={product.id} className="fade-in-section" style={{ transitionDelay: `${index * 0.1}s` }}>
-                  <ProductCard {...product} />
+                <div key={product.id} className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+                  <div className="relative">
+                    <img 
+                      src={product.image} 
+                      alt={product.name} 
+                      className="w-full aspect-square object-cover"
+                    />
+                    {product.isNew && (
+                      <span className="absolute top-3 left-3 bg-cane-900 text-white text-xs font-medium px-2 py-1 rounded-full">
+                        New
+                      </span>
+                    )}
+                    {product.isBestseller && (
+                      <span className="absolute top-3 left-3 bg-cane-700 text-white text-xs font-medium px-2 py-1 rounded-full">
+                        Bestseller
+                      </span>
+                    )}
+                    <button 
+                      className="absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm hover:bg-cane-50 transition-colors"
+                      aria-label="Add to wishlist"
+                    >
+                      <Heart size={16} className="text-cane-700" />
+                    </button>
+                  </div>
+                  
+                  <div className="p-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <h3 className="text-cane-950 font-medium line-clamp-2">{product.name}</h3>
+                    </div>
+                    
+                    <div className="flex items-center mb-2">
+                      <div className="flex mr-1">
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            size={14}
+                            fill={i < Math.floor(product.rating) ? "currentColor" : "none"}
+                            className="text-yellow-500"
+                          />
+                        ))}
+                      </div>
+                      <span className="text-xs text-cane-600">({product.reviews})</span>
+                    </div>
+                    
+                    <div className="flex justify-between items-center mt-3">
+                      <span className="font-medium text-cane-950">${product.price.toFixed(2)}</span>
+                      <button 
+                        onClick={() => handleAddToCart(product)}
+                        className="bg-cane-900 text-white text-sm px-4 py-2 rounded-full hover:bg-cane-800 transition-colors"
+                      >
+                        Add to cart
+                      </button>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>

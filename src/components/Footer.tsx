@@ -16,21 +16,21 @@ const Footer = () => {
               Premium skincare and supplements crafted with natural ingredients, designed to enhance your beauty and wellness journey.
             </p>
             <div className="mt-6 flex space-x-4">
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-cane-300 hover:text-white transition-colors">
-                <Instagram size={20} />
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="bg-cane-800 text-white p-2.5 rounded-full hover:bg-cane-700 transition-colors">
+                <Instagram size={18} />
               </a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-cane-300 hover:text-white transition-colors">
-                <Facebook size={20} />
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="bg-cane-800 text-white p-2.5 rounded-full hover:bg-cane-700 transition-colors">
+                <Facebook size={18} />
               </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="text-cane-300 hover:text-white transition-colors">
-                <Twitter size={20} />
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="bg-cane-800 text-white p-2.5 rounded-full hover:bg-cane-700 transition-colors">
+                <Twitter size={18} />
               </a>
             </div>
           </div>
           
           <div>
             <h3 className="text-sm font-medium uppercase tracking-wider">Shop</h3>
-            <ul className="mt-4 space-y-2">
+            <ul className="mt-4 space-y-3">
               <li><Link to="/shop" className="text-cane-300 hover:text-white transition-colors text-sm">All Products</Link></li>
               <li><Link to="/category/skincare" className="text-cane-300 hover:text-white transition-colors text-sm">Skincare</Link></li>
               <li><Link to="/category/supplements" className="text-cane-300 hover:text-white transition-colors text-sm">Supplements</Link></li>
@@ -41,7 +41,7 @@ const Footer = () => {
           
           <div>
             <h3 className="text-sm font-medium uppercase tracking-wider">Company</h3>
-            <ul className="mt-4 space-y-2">
+            <ul className="mt-4 space-y-3">
               <li><Link to="/about" className="text-cane-300 hover:text-white transition-colors text-sm">Our Story</Link></li>
               <li><Link to="/ingredients" className="text-cane-300 hover:text-white transition-colors text-sm">Ingredients</Link></li>
               <li><Link to="/sustainability" className="text-cane-300 hover:text-white transition-colors text-sm">Sustainability</Link></li>
@@ -52,7 +52,7 @@ const Footer = () => {
           
           <div>
             <h3 className="text-sm font-medium uppercase tracking-wider">Customer Care</h3>
-            <ul className="mt-4 space-y-2">
+            <ul className="mt-4 space-y-3">
               <li><Link to="/shipping" className="text-cane-300 hover:text-white transition-colors text-sm">Shipping & Returns</Link></li>
               <li><Link to="/faq" className="text-cane-300 hover:text-white transition-colors text-sm">FAQ</Link></li>
               <li><Link to="/privacy" className="text-cane-300 hover:text-white transition-colors text-sm">Privacy Policy</Link></li>
