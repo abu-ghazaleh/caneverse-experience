@@ -1,5 +1,6 @@
 
 import React, { useEffect } from 'react';
+import { Star } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import FeaturedProducts from '@/components/FeaturedProducts';
