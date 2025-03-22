@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Menu, X, ShoppingBag, Search, User } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/auth/authContext';
 import Button from './Button';
 import Cart from './Cart';
 
@@ -10,7 +11,9 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const { openCart, cartCount } = useCart();
+  const { currentUser, signOut } = useAuth();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -35,6 +38,16 @@ const Navbar = () => {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'auto';
+    }
+  };
+  
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      setIsMobileMenuOpen(false);
+      navigate('/');
+    } catch (error) {
+      console.error('Sign out error:', error);
     }
   };
   
@@ -86,12 +99,16 @@ const Navbar = () => {
             >
               <Search size={20} />
             </button>
-            <button 
+            <Link 
+              to={currentUser ? "/account" : "/login"}
               className="text-cane-950 hover:text-cane-600 transition-colors duration-200"
-              aria-label="Account"
+              aria-label={currentUser ? "Account" : "Sign in"}
             >
               <User size={20} />
-            </button>
+              {currentUser && (
+                <span className="absolute -top-1 -right-1 bg-green-500 rounded-full w-2 h-2"></span>
+              )}
+            </Link>
             <button 
               className="text-cane-950 hover:text-cane-600 transition-colors duration-200 relative"
               aria-label="Shopping bag"
@@ -137,8 +154,29 @@ const Navbar = () => {
             </Link>
           ))}
           <div className="pt-4 flex flex-col space-y-4">
-            <Button variant="primary" fullWidth>Sign In</Button>
-            <Button variant="outline" fullWidth>Create Account</Button>
+            {currentUser ? (
+              <>
+                <Link to="/account" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button variant="primary" fullWidth>My Account</Button>
+                </Link>
+                <Button 
+                  variant="outline" 
+                  fullWidth 
+                  onClick={handleSignOut}
+                >
+                  Sign Out
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button variant="primary" fullWidth>Sign In</Button>
+                </Link>
+                <Link to="/register" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button variant="outline" fullWidth>Create Account</Button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>
