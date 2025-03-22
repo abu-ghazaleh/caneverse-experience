@@ -4,6 +4,14 @@ import { Filter, ChevronDown } from 'lucide-react';
 import ProductCard from '@/components/ProductCard';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { 
+  Pagination, 
+  PaginationContent, 
+  PaginationItem, 
+  PaginationLink, 
+  PaginationNext, 
+  PaginationPrevious 
+} from '@/components/ui/pagination';
 
 const products = [
   {
@@ -70,6 +78,14 @@ const products = [
 
 const Shop = () => {
   const [filterOpen, setFilterOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 8;
+  
+  // Calculate products for current page
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+  const totalPages = Math.ceil(products.length / productsPerPage);
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -77,14 +93,14 @@ const Shop = () => {
       
       <main className="flex-grow pt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center mb-12 animate-reveal-delay-1 opacity-0">
+          <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-serif font-medium text-cane-950">Shop All Products</h1>
             <p className="mt-4 max-w-2xl mx-auto text-cane-700">
               Discover our collection of premium skincare and supplements designed to enhance your natural beauty.
             </p>
           </div>
           
-          <div className="flex flex-col md:flex-row justify-between items-start mb-8 animate-reveal-delay-2 opacity-0">
+          <div className="flex flex-col md:flex-row justify-between items-start mb-8">
             <button 
               onClick={() => setFilterOpen(!filterOpen)}
               className="flex items-center text-cane-950 border border-cane-200 rounded px-4 py-2 mb-4 md:mb-0 hover:bg-cane-50 transition-colors"
@@ -108,7 +124,7 @@ const Shop = () => {
           </div>
           
           {filterOpen && (
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 p-6 bg-cane-50 rounded-lg animate-reveal-delay-2 opacity-0">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 p-6 bg-cane-50 rounded-lg">
               <div>
                 <h3 className="font-medium mb-3">Category</h3>
                 <div className="space-y-2">
@@ -179,13 +195,52 @@ const Shop = () => {
             </div>
           )}
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 animate-reveal-delay-3 opacity-0">
-            {products.map((product, index) => (
-              <div key={product.id} className="fade-in-section" style={{ transitionDelay: `${index * 0.1}s` }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+            {currentProducts.map((product, index) => (
+              <div key={product.id} style={{ transitionDelay: `${index * 0.1}s` }}>
                 <ProductCard {...product} />
               </div>
             ))}
           </div>
+          
+          {/* Add pagination */}
+          {totalPages > 1 && (
+            <div className="mt-16">
+              <Pagination>
+                <PaginationContent>
+                  {currentPage > 1 && (
+                    <PaginationItem>
+                      <PaginationPrevious 
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} 
+                        className="cursor-pointer" 
+                      />
+                    </PaginationItem>
+                  )}
+                  
+                  {Array.from({ length: totalPages }).map((_, index) => (
+                    <PaginationItem key={index}>
+                      <PaginationLink 
+                        isActive={currentPage === index + 1}
+                        onClick={() => setCurrentPage(index + 1)}
+                        className="cursor-pointer"
+                      >
+                        {index + 1}
+                      </PaginationLink>
+                    </PaginationItem>
+                  ))}
+                  
+                  {currentPage < totalPages && (
+                    <PaginationItem>
+                      <PaginationNext 
+                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} 
+                        className="cursor-pointer" 
+                      />
+                    </PaginationItem>
+                  )}
+                </PaginationContent>
+              </Pagination>
+            </div>
+          )}
         </div>
       </main>
       
