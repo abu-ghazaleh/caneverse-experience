@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingBag, Heart } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useCart } from '@/context/CartContext';
 
 interface ProductCardProps {
   id: string;
@@ -25,6 +25,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const { addItem } = useCart();
+  
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addItem({ id, name, price, image, category });
+  };
   
   return (
     <div 
@@ -81,6 +88,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <button 
             className="bg-cane-950 p-2.5 rounded-full hover:bg-cane-800 transition-colors duration-200 flex-1"
             aria-label="Add to bag"
+            onClick={handleAddToCart}
           >
             <div className="flex items-center justify-center text-white gap-2">
               <ShoppingBag size={18} />

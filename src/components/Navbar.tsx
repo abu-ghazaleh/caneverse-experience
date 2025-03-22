@@ -1,14 +1,16 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Menu, X, ShoppingBag, Search, User } from 'lucide-react';
+import { useCart } from '@/context/CartContext';
 import Button from './Button';
+import Cart from './Cart';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { openCart, cartCount } = useCart();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -93,11 +95,14 @@ const Navbar = () => {
             <button 
               className="text-cane-950 hover:text-cane-600 transition-colors duration-200 relative"
               aria-label="Shopping bag"
+              onClick={openCart}
             >
               <ShoppingBag size={20} />
-              <span className="absolute -top-1 -right-1 bg-cane-950 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                0
-              </span>
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-cane-950 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
             </button>
             <button
               className="md:hidden text-cane-950 hover:text-cane-600 transition-colors duration-200"
@@ -137,6 +142,9 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      
+      {/* Cart Component */}
+      <Cart />
     </>
   );
 };

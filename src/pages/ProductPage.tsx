@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { 
@@ -15,6 +14,7 @@ import {
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Button from '@/components/Button';
+import { useCart } from '@/context/CartContext';
 import { Slider } from '@/components/ui/slider';
 import ProductCard from '@/components/ProductCard';
 import { 
@@ -30,12 +30,12 @@ const product = {
   id: '1',
   name: 'Hydrating Facial Serum',
   price: 64.00,
-  description: 'A lightweight, fast-absorbing serum that delivers intense hydration and helps restore skin's natural moisture balance. Formulated with hyaluronic acid, vitamin B5, and botanical extracts to plump and smooth the skin.',
+  description: 'A lightweight, fast-absorbing serum that delivers intense hydration and helps restore skins natural moisture balance. Formulated with hyaluronic acid, vitamin B5, and botanical extracts to plump and smooth the skin.',
   benefits: [
     'Deeply hydrates and plumps skin',
     'Reduces the appearance of fine lines',
     'Improves skin texture and tone',
-    'Boosts skin's natural moisture retention'
+    'Boosts skins natural moisture retention'
   ],
   ingredients: 'Aqua, Glycerin, Propanediol, Sodium Hyaluronate, Panthenol, Aloe Barbadensis Leaf Juice, Camellia Sinensis Leaf Extract, Cucumis Sativus Fruit Extract, Rosa Canina Fruit Extract, Sodium PCA, Allantoin, Xanthan Gum, Caprylyl Glycol, Ethylhexylglycerin, Phenoxyethanol, Citric Acid.',
   howToUse: 'Apply 3-4 drops to clean, damp skin morning and evening. Gently press and pat into skin, then follow with your favorite moisturizer.',
@@ -46,7 +46,8 @@ const product = {
     'https://images.unsplash.com/photo-1592136957897-b2b6ca21e10d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'
   ],
   reviews: 128,
-  rating: 4.8
+  rating: 4.8,
+  category: 'Skincare'
 };
 
 // Related products
@@ -97,6 +98,7 @@ const ProductPage = () => {
   const [activeTab, setActiveTab] = useState('description');
   const [selectedSize, setSelectedSize] = useState('30ml');
   const [ratingValue, setRatingValue] = useState([4]);
+  const { addItem } = useCart();
   
   const incrementQuantity = () => {
     setQuantity(prev => prev + 1);
@@ -106,6 +108,17 @@ const ProductPage = () => {
     if (quantity > 1) {
       setQuantity(prev => prev - 1);
     }
+  };
+
+  const handleAddToCart = () => {
+    addItem({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.images[0],
+      category: product.category,
+      size: selectedSize
+    }, quantity);
   };
 
   return (
@@ -224,7 +237,7 @@ const ProductPage = () => {
               
               {/* Actions */}
               <div className="flex space-x-4 pt-4">
-                <Button fullWidth variant="primary" size="lg">
+                <Button fullWidth variant="primary" size="lg" onClick={handleAddToCart}>
                   <ShoppingBag size={18} />
                   Add to Cart
                 </Button>
