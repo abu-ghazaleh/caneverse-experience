@@ -16,6 +16,7 @@ import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import Account from "./pages/Account";
 
 
 const queryClient = new QueryClient();
