@@ -27,3 +27,12 @@ dist-ssr
 .env
 *.env
 src/firebase/.env.example
+
+# Additional sensitive files
+*credential*.json
+*secret*.json
+*.key
+*.pem
+*.p12
+*service-account*
+*firebase-adminsdk*
